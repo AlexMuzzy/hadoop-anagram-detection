@@ -1,9 +1,10 @@
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.Objects;
+
+
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
+
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -13,39 +14,32 @@ import java.util.Scanner;
 public class JobUtils {
 
     /**
-     * Checks if an output directory has been created.
+     * Checks if an output directory has been created.hot chocolate with bunny
      * If it is created, delete it.
      *
      * @param outputString String of output directory.
      */
-    public static boolean checkOutputDirectory(String outputString){
+    public static boolean checkOutputDirectory(String outputString) throws IOException {
 
-        Path outputPath = Paths.get(outputString);
+        Path outputPath = new Path(outputString);
+        FileSystem hdfs = FileSystem.get(new Configuration());
 
-
-        if (!Files.exists(outputPath)) {
+        if (!hdfs.exists(outputPath)) {
             System.out.println("Output Directory Not Found, continuing job.");
             return false;
         }
 
         System.out.println("Directory: " +
                 outputPath +
-                "has been found. Delete it to re-run current job?");
+                " has been found. Delete it to re-run current job?");
 
-        System.out.print("Y for yes: ");
+        System.out.print("Press enter for yes: ");
         Scanner scan = new Scanner(System.in);
-        String userInputString = scan.next();
+        String userInputString = scan.nextLine();
         scan.close();
 
-        if (Objects.equals(userInputString, "Y")){
-            //Grab all files in directory, then iteratively delete each file.
-            //End with deleting folder.
-
-            Arrays.stream(Objects.requireNonNull(
-                    outputPath.toFile().list()))
-                    .forEach(outputFile -> {
-                        final boolean delete = new File(outputFile).delete();
-                    });
+        if (userInputString.isEmpty()){
+            hdfs.delete(outputPath, true);// Delete the given folder.
         }
 
         return true;
