@@ -7,8 +7,6 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 /**
- * TITLE: AnagramCountJob.
- *
  * DESCRIPTION: Using the Apache Hadoop Framework, it finds every common anagram
  * amongst a given dataset.
  *
@@ -35,7 +33,10 @@ public class AnagramCountJob {
 
         job.setJarByClass(AnagramCountJob.class);
         job.setMapperClass(AnagramMapper.class);
+        job.setCombinerClass(AnagramCombiner.class);
         job.setReducerClass(AnagramReducer.class);
+
+        job.setGroupingComparatorClass(AnagramCompositeKeyComparator.class);
 
         job.setOutputKeyClass(AnagramCompositeKey.class);
         job.setOutputValueClass(Text.class);
