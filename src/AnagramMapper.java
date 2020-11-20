@@ -31,9 +31,14 @@ public class AnagramMapper extends Mapper<Object, Text, AnagramCompositeKey, Tex
         StringTokenizer itr = new StringTokenizer(value.toString());
 
         while (itr.hasMoreTokens()) {
+
             String currentWord = itr.nextToken();
+            AnagramCompositeKey reducerKey = new AnagramCompositeKey(
+                            SortGivenWord(currentWord.toCharArray()),
+                            new IntWritable(1));
+
             context.write(
-                    new AnagramCompositeKey(SortGivenWord(currentWord.toCharArray())),
+                    reducerKey,
                     new Text(currentWord));
         }
     }
@@ -45,7 +50,7 @@ public class AnagramMapper extends Mapper<Object, Text, AnagramCompositeKey, Tex
      */
     private Text SortGivenWord (char[] word){
         Arrays.sort(word);
-        return new Text(String.valueOf(word));
+        return new Text(new String(word));
     }
 }
 
