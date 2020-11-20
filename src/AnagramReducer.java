@@ -7,7 +7,7 @@ import java.util.Optional;
 /**
  * Anagram Reducer Class. Extends Hadoop's reducer class.
  */
-public class AnagramReducer extends Reducer<AnagramCompositeKey, Text, Integer, Text> {
+public class AnagramReducer extends Reducer<AnagramCompositeKey, Text, Text, Text> {
 
     /**
      * Reducer method.
@@ -23,24 +23,26 @@ public class AnagramReducer extends Reducer<AnagramCompositeKey, Text, Integer, 
             throws IOException, InterruptedException {
 
         StringBuilder anagram = null;
-
+        int endCount = 0;
         for (Text val : values) {
             if (anagram == null) {
                 anagram = Optional.ofNullable(val.toString()).map(StringBuilder::new).orElse(null);
             } else {
                 anagram.append(", ").append(val.toString());
             }
-            key.incrementFrequency();
+            endCount += key.getFrequency().get();
         }
 
-        if (key.getFrequency() > 1) {//Check that there are more than one values to display the anagram.
+        if (key.getFrequency().get() > 1) {//Check that there are more than one values to display the anagram.
             assert anagram != null;
-            context.write(key.getFrequency(), FormatAnagram(key.getKeyName(), anagram));
+            context.write(new Text(
+                    key.getKeyName().toString() + " " + endCount),
+                    FormatAnagram(anagram));
         }
     }
 
-    private Text FormatAnagram(Text key, StringBuilder anagramSet) {
-        return new Text(key + " { " + anagramSet.toString() + " }");
+    private Text FormatAnagram(StringBuilder anagramSet) {
+        return new Text(" { " + anagramSet.toString() + " }");
     }
 }
 
