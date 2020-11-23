@@ -39,6 +39,12 @@ public class AnagramCompositeKey implements Writable, WritableComparable<Anagram
         this.keyName = keyName;
     }
 
+    public Text getKeyPair(){
+        return new Text(String.join(" ",
+                "Count: " + this.frequency.toString(),
+                " Anagram Key: " + this.keyName.toString()));
+    }
+
     @Override
     public void write(DataOutput dataOutput) throws IOException {
         dataOutput.writeInt(this.getFrequency().get());
@@ -53,6 +59,9 @@ public class AnagramCompositeKey implements Writable, WritableComparable<Anagram
 
     @Override
     public int compareTo(AnagramCompositeKey pair) {
-        return ComparisonChain.start().compare(this.frequency, pair.frequency).compare(this.keyName, pair.keyName).result();
+        return ComparisonChain.start()
+                .compare(this.frequency, pair.frequency)
+                .compare(this.keyName, pair.keyName)
+                .result();
     }
 }
