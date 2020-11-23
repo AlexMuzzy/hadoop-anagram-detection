@@ -1,9 +1,11 @@
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.StringTokenizer;
 
 
@@ -11,6 +13,16 @@ import java.util.StringTokenizer;
  * AnagramMapper class. Extends Hadoop's Mapper class.
  */
 public class AnagramMapper extends Mapper<Object, Text, AnagramCompositeKey, Text> {
+
+    List<String> stopWords;
+
+    {
+        try {
+            stopWords = Arrays.asList(JobUtils.requestAndSaveStopWords());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Mapper method.
@@ -30,9 +42,15 @@ public class AnagramMapper extends Mapper<Object, Text, AnagramCompositeKey, Tex
 
         StringTokenizer itr = new StringTokenizer(value.toString());
 
+//        Filter the given string tokenizer from the stop words request,
+//        then parse the filtered words to construct the composite key
+//        and context.
+
         while (itr.hasMoreTokens()) {
 
-            String currentWord = itr.nextToken();
+            String currentWord = itr.nextToken().replaceAll("[^a-zA-Z]", "");
+            //grab string from iterable where
+            if (stopWords.contains(currentWord)) continue;
             AnagramCompositeKey reducerKey = new AnagramCompositeKey(
                             SortGivenWord(currentWord.toCharArray()),
                             new IntWritable(1));
