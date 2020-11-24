@@ -32,8 +32,7 @@ public class AnagramCombiner extends Reducer<AnagramCompositeKey, Text, AnagramC
             count++;
         }
 
-        key.setFrequency(
-                new IntWritable(count));
+        key.setFrequency(new IntWritable(count));
 
         if (anagram != null) {
             context.write(key, new Text(anagram.toString()));
