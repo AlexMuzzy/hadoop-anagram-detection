@@ -48,7 +48,7 @@ public class AnagramMapper extends Mapper<Object, Text, AnagramCompositeKey, Tex
 
         while (itr.hasMoreTokens()) {
 
-            String currentWord = itr.nextToken().replaceAll("[^a-zA-Z]", "");
+            String currentWord = itr.nextToken().replaceAll("[^a-zA-Z]", "").toLowerCase();
             //grab string from iterable where
             if (stopWords.contains(currentWord)) continue;
             AnagramCompositeKey reducerKey = new AnagramCompositeKey(
