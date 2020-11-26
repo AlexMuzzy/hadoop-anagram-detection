@@ -26,7 +26,10 @@ public class AnagramCountJob {
     public static void main(String[] args) throws Exception {
 
         cmdLineArgs = args;
-        paramArgs = AnagramJobUtils.sortingBoolToInt(AnagramJobUtils.getOptionals(cmdLineArgs));
+        //initial command line parameters.
+
+        paramArgs = AnagramJobUtils.getOptionals(cmdLineArgs);
+        //Command line parameters which have been processed
 
         //Checks if output directory exists.
         if (AnagramJobUtils.checkOutputDirectory("output")) {
