@@ -29,7 +29,7 @@ public class AnagramReducer extends Reducer<AnagramCompositeKey, Text, Text, Tex
 
         AnagramCompositeValues anagram = new AnagramCompositeValues(values);
 
-        if (anagram.getSize() > 1) {//Check that there are more than one values to display the anagram.
+        if (anagram.getSize() > 1) {//Check that there are more than one distinct word to display the anagram.
             anagramMap.put(new AnagramCompositeKey(
                     key.getKeyName(),
                     key.getFrequency()),
