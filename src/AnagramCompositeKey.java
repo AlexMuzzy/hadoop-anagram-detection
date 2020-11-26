@@ -94,17 +94,11 @@ public class AnagramCompositeKey implements Writable, WritableComparable<Anagram
      */
     @Override
     public int compareTo(AnagramCompositeKey pair) {
-//        return ComparisonChain.start()
-//                .compare(pair.frequency, this.frequency)
-//                .compare(this.keyName, pair.keyName)
-//                .result();
         Integer[] sortingValues = AnagramCountJob.paramArgs;
-
         int frequencySort = sortingValues[0]
                 * this.frequency.compareTo(pair.frequency);
 
         if (frequencySort != 0) return frequencySort;
-
         return sortingValues[1] * this.keyName.compareTo(pair.keyName);
     }
 }
