@@ -18,13 +18,21 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
  *
  * camelCase naming conventions are used in this project.
  */
+
+
+
 public class AnagramCountJob {
+
+    public static String[] cmdLineArgs;
+
+    public static Integer[] paramArgs;
 
     public static void main(String[] args) throws Exception {
 
-        String outputPath = "output";
+        cmdLineArgs = args;
+        paramArgs = JobUtils.sortingBoolToInt(JobUtils.getOptionals(cmdLineArgs));
 
-        if (JobUtils.checkOutputDirectory(outputPath)){
+        if (JobUtils.checkOutputDirectory("output")){
             System.out.println("Output directory deleted. continuing job.");
         }
 
@@ -41,8 +49,8 @@ public class AnagramCountJob {
         job.setOutputKeyClass(AnagramCompositeKey.class);
         job.setOutputValueClass(Text.class);
 
-        FileInputFormat.addInputPath(job, new Path(args[0]));
-        FileOutputFormat.setOutputPath(job, new Path(args[1]));
+        FileInputFormat.addInputPath(job, new Path(cmdLineArgs[0]));
+        FileOutputFormat.setOutputPath(job, new Path(cmdLineArgs[1]));
 
         System.exit(job.waitForCompletion(true) ? 0 : 1);
     }
