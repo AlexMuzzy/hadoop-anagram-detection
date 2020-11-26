@@ -16,7 +16,7 @@ public class AnagramMapper extends Mapper<Object, Text, AnagramCompositeKey, Tex
 
     List<String> stopWords;
 
-    {
+    { //TODO: wrap inside private method.
         try {
             stopWords = Arrays.asList(JobUtils.requestAndSaveStopWords());
         } catch (IOException e) {
@@ -42,14 +42,12 @@ public class AnagramMapper extends Mapper<Object, Text, AnagramCompositeKey, Tex
 
         StringTokenizer itr = new StringTokenizer(value.toString());
 
-//        Filter the given string tokenizer from the stop words request,
-//        then parse the filtered words to construct the composite key
-//        and context.
-
         while (itr.hasMoreTokens()) {
 
-            String currentWord = itr.nextToken().replaceAll("[^a-zA-Z]", "").toLowerCase();
-            //grab string from iterable where
+            String currentWord = itr.nextToken()
+                    .replaceAll("(^')|('$)|[^'a-zA-Z]", "")
+                    .toLowerCase();
+
             if (stopWords.contains(currentWord)) continue;
             AnagramCompositeKey reducerKey = new AnagramCompositeKey(
                             SortGivenWord(currentWord.toCharArray()),
