@@ -16,7 +16,7 @@ import java.util.Scanner;
  * A class containing all common utility methods that are used for the function
  * of this project.
  */
-public class JobUtils {
+public class AnagramJobUtils {
 
     /**
      * Checks if an output directory has been created.hot chocolate with bunny

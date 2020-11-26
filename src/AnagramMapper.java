@@ -1,6 +1,5 @@
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 
 import java.io.IOException;
@@ -81,7 +80,7 @@ public class AnagramMapper extends Mapper<Object, Text, AnagramCompositeKey, Tex
      */
     private List<String> getStopWords() {
         try {
-            return stopWords = Arrays.asList(JobUtils.requestAndSaveStopWords());
+            return stopWords = Arrays.asList(AnagramJobUtils.requestAndSaveStopWords());
         } catch (IOException e) {
             e.printStackTrace();
         }

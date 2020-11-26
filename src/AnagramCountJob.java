@@ -26,10 +26,10 @@ public class AnagramCountJob {
     public static void main(String[] args) throws Exception {
 
         cmdLineArgs = args;
-        paramArgs = JobUtils.sortingBoolToInt(JobUtils.getOptionals(cmdLineArgs));
+        paramArgs = AnagramJobUtils.sortingBoolToInt(AnagramJobUtils.getOptionals(cmdLineArgs));
 
         //Checks if output directory exists.
-        if (JobUtils.checkOutputDirectory("output")) {
+        if (AnagramJobUtils.checkOutputDirectory("output")) {
             System.out.println("Output directory deleted. continuing job.");
         }
 
