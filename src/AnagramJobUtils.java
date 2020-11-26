@@ -76,11 +76,18 @@ public class AnagramJobUtils {
         }
     }
 
-    public static Boolean[] getOptionals(String[] cmdLineArgs) {
+    /**
+     * Gets the command line arguments given from the driver method and generates
+     * a boolean array from the given values.
+     *
+     * @param cmdLineArgs Given command line arguments.
+     * @return Boolean array of sorting order values.
+     */
+    public static Integer[] getOptionals(String[] cmdLineArgs) {
 
         // Set the resultant optional command line results to a boolean array.
         // False is default value given, true is altered value.
-        Boolean[] resultArgs = new Boolean[]{false, false, false};
+        Integer[] resultArgs = new Integer[]{1, 1};
 
         if (cmdLineArgs.length <= 2) return resultArgs;
         // Checks if any optional parameters have been given. If not,
@@ -91,36 +98,17 @@ public class AnagramJobUtils {
             // Process each argument and if it matches a sorting parameter
             // that isn't currently a default value.
             switch (cmdLineArg) {
-
-                case "sort=descending":
-                    resultArgs[0] = true;
+                case "Sort=descending":
+                    resultArgs[0] = -1;
                     break;
 
-                case "wordSort=descending":
-                    resultArgs[1] = true;
+                case "WordSort=descending":
+                    resultArgs[1] = -1;
                     break;
-
-                case "setSort=descending":
-                    resultArgs[2] = true;
-                    break;
-
             }
         }
         //Return altered parameter args.
         return resultArgs;
-    }
-
-    public static Integer[] sortingBoolToInt(Boolean[] boolArray) {
-
-        ArrayList<Integer> result = new ArrayList<>();
-        //Initialise new mutable list
-
-        for (boolean b : boolArray) {
-            result.add(b ? -1 : 1);
-        } // Iterate over booleans for conversion to
-          // respective integer values.
-
-       return result.toArray(new Integer[0]);
     }
 }
 
