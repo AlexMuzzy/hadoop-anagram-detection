@@ -5,11 +5,11 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 
 import java.io.IOException;
-import java.io.InputStream;
 
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
+
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -53,6 +53,7 @@ public class JobUtils {
     /**
      * performs a HTML GET request to the given stop word list and forwards the data
      * to a list of strings.
+     *
      * @return List of strings of the given stop words.
      * @throws IOException Throws Exception when IO operation is performed.
      */
@@ -72,4 +73,49 @@ public class JobUtils {
         }
     }
 
+    public static Boolean[] getOptionals(String[] cmdLineArgs) {
+
+        // Set the resultant optional command line results to a boolean array.
+        // False is default value given, true is altered value.
+        Boolean[] resultArgs = new Boolean[]{false, false, false};
+
+        if (cmdLineArgs.length <= 2) return resultArgs;
+        // Checks if any optional parameters have been given. If not,
+        // return the default values.
+
+        for (String cmdLineArg : cmdLineArgs) {
+
+            // Process each argument and if it matches a sorting parameter
+            // that isn't currently a default value.
+            switch (cmdLineArg) {
+
+                case "sort=descending":
+                    resultArgs[0] = true;
+                    break;
+
+                case "wordSort=descending":
+                    resultArgs[1] = true;
+                    break;
+
+                case "setSort=descending":
+                    resultArgs[2] = true;
+                    break;
+
+            }
+        }
+        //Return altered parameter args.
+        return resultArgs;
+    }
+
+    public static Integer[] sortingBoolToInt(Boolean[] boolArray) {
+
+        ArrayList<Integer> result = new ArrayList<>();
+        //Initialise new mutable list
+
+        for (boolean b : boolArray) {
+            result.add(b ? -1 : 1);
+        }
+        return result.toArray(new Integer[0]);
+    }
 }
+
