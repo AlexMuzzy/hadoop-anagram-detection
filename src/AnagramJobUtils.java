@@ -78,10 +78,10 @@ public class AnagramJobUtils {
 
     /**
      * Gets the command line arguments given from the driver method and generates
-     * a boolean array from the given values.
+     * a integer array from the given values.
      *
      * @param cmdLineArgs Given command line arguments.
-     * @return Boolean array of sorting order values.
+     * @return Integer array of sorting order values.
      */
     public static Integer[] getOptionals(String[] cmdLineArgs) {
 
