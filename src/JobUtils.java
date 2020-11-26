@@ -29,11 +29,13 @@ public class JobUtils {
         Path outputPath = new Path(outputString);
         FileSystem hdfs = FileSystem.get(new Configuration());
 
+        //print continuing job message.
         if (!hdfs.exists(outputPath)) {
             System.out.println("Output Directory Not Found, continuing job.");
             return false;
         }
 
+        //print output directory has been found along with requests user's input.
         System.out.println("Directory: " +
                 outputPath +
                 " has been found. Delete it to re-run current job?");
@@ -41,8 +43,9 @@ public class JobUtils {
         System.out.print("Press enter for yes: ");
         Scanner scan = new Scanner(System.in);
         String userInputString = scan.nextLine();
-        scan.close();
+        scan.close();//Close the input scanner.
 
+        //if output directory exists, delete.
         if (userInputString.isEmpty()) {
             hdfs.delete(outputPath, true);// Delete the given folder.
         }
@@ -114,8 +117,10 @@ public class JobUtils {
 
         for (boolean b : boolArray) {
             result.add(b ? -1 : 1);
-        }
-        return result.toArray(new Integer[0]);
+        } // Iterate over booleans for conversion to
+          // respective integer values.
+
+       return result.toArray(new Integer[0]);
     }
 }
 
