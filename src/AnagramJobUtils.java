@@ -85,8 +85,8 @@ public class AnagramJobUtils {
      */
     public static Integer[] getOptionals(String[] cmdLineArgs) {
 
-        // Set the resultant optional command line results to a boolean array.
-        // False is default value given, true is altered value.
+        // Set the resultant optional command line results to a int array.
+        // 1 is default value given, -1 is altered value.
         Integer[] resultArgs = new Integer[]{1, 1};
 
         if (cmdLineArgs.length <= 2) return resultArgs;
