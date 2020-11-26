@@ -3,7 +3,6 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
 import java.io.IOException;
-import java.util.Optional;
 
 public class AnagramCombiner extends Reducer<AnagramCompositeKey, Text, AnagramCompositeKey, Text> {
 
@@ -25,7 +24,7 @@ public class AnagramCombiner extends Reducer<AnagramCompositeKey, Text, AnagramC
         StringBuilder anagram = null;
         for (Text val : values) {
             if (anagram == null) {
-                anagram = Optional.ofNullable(val.toString()).map(StringBuilder::new).orElse(null);
+                anagram = new StringBuilder(val.toString());
             } else {
                 anagram.append(", ").append(val.toString());
             }
