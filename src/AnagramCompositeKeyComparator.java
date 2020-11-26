@@ -12,6 +12,8 @@ public class AnagramCompositeKeyComparator extends WritableComparator {
         AnagramCompositeKey pair = (AnagramCompositeKey) a;
         AnagramCompositeKey pair2 = (AnagramCompositeKey) b;
 
-        return pair.getKeyName().compareTo(pair2.getKeyName());
+        // Set sort to ascending or descending depending on optional command line
+        // parameters.
+        return AnagramCountJob.paramArgs[1]*pair.getKeyName().compareTo(pair2.getKeyName());
     }
 }
