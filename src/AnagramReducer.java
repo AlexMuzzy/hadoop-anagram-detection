@@ -9,8 +9,6 @@ import java.util.TreeMap;
  */
 public class AnagramReducer extends Reducer<AnagramCompositeKey, Text, Text, Text> {
 
-
-
     private TreeMap<AnagramCompositeKey, String> anagramMap;
 
     @Override
@@ -19,7 +17,8 @@ public class AnagramReducer extends Reducer<AnagramCompositeKey, Text, Text, Tex
     }
     /**
      * Reducer method.
-     * Takes each key value pair and summarises every value to each distinct key.
+     * Takes each key value pair and summarises every value to each distinct key within.
+     * the given anagram composite key class.
      *
      * @param key Each given key.
      * @param values Every given value.
@@ -29,7 +28,8 @@ public class AnagramReducer extends Reducer<AnagramCompositeKey, Text, Text, Tex
 
         AnagramCompositeValues anagram = new AnagramCompositeValues(values);
 
-        if (anagram.getSize() > 1) {//Check that there are more than one distinct word to display the anagram.
+        // If there is more than one unique word in the anagram set, continue.
+        if (anagram.getSize() > 1) {
             anagramMap.put(new AnagramCompositeKey(
                     key.getKeyName(),
                     key.getFrequency()),
@@ -37,6 +37,13 @@ public class AnagramReducer extends Reducer<AnagramCompositeKey, Text, Text, Tex
         }
     }
 
+    /**
+     * Cleanup Method.
+     * Writes each key value pair to the resultant output. Formats the output
+     * with curly braces.
+     *
+     * @param context Given context.
+     */
     public void cleanup(Context context) {
         anagramMap.forEach((key, value) -> {
             try {

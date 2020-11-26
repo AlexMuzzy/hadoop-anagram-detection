@@ -12,6 +12,12 @@ public class AnagramCompositeValues {
 
     TreeMap<String, Integer> wordCounts;
 
+    /**
+     * Constructor. Gets Iterable object and set wordCounts to given
+     * treemap through its builtin method generateWordCounts.
+     *
+     * @param wordsIterable Iterable object of words.
+     */
     public AnagramCompositeValues(Iterable<Text> wordsIterable) {
         this.wordCounts = generateWordCounts(wordsIterable);
     }
