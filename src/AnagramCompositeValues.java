@@ -2,6 +2,7 @@ import org.apache.hadoop.io.Text;
 
 import java.util.Arrays;
 import java.util.TreeMap;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -15,7 +16,6 @@ public class AnagramCompositeValues {
         this.wordCounts = generateWordCounts(wordsIterable);
     }
 
-
     public TreeMap<String, Integer> generateWordCounts(Iterable<Text> wordsIterable) {
         String words = StreamSupport
                 .stream(wordsIterable.spliterator(), false)
@@ -24,7 +24,7 @@ public class AnagramCompositeValues {
 
         return new TreeMap<>(Arrays
                 .stream(words.split(", "))
-                .collect(Collectors.groupingBy(s -> s, summingInt(s -> 1))));
+                .collect(Collectors.groupingBy(Function.identity(), summingInt(s -> 1))));
     }
 
     public int getSize() {
