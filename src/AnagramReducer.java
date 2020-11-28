@@ -1,3 +1,4 @@
+import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
@@ -29,11 +30,13 @@ public class AnagramReducer extends Reducer<AnagramCompositeKey, Text, Text, Tex
 
         AnagramCompositeValues anagram = new AnagramCompositeValues(values);
 
+        int anagramSize = anagram.getSize();
+
         // If there is more than one unique word in the anagram set, continue.
-        if (anagram.getSize() > 1) {
+        if (anagramSize > 1) {
             anagramMap.put(new AnagramCompositeKey(
                             new Text(anagram.getFirstKey()),
-                            key.getFrequency()),
+                            new IntWritable(anagramSize)),
                     anagram.printWordCounts());
         }
     }
