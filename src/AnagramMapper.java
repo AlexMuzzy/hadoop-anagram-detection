@@ -31,23 +31,24 @@ public class AnagramMapper extends Mapper<Object, Text, AnagramCompositeKey, Tex
     public void map(Object key, Text value, Context context)
             throws IOException, InterruptedException {
 
-        //Splits string into whitespace separated tokens for iteration.
-        StringTokenizer itr = new StringTokenizer(value.toString());
+        // Splits string into whitespace separated tokens for iteration.
+        //
+        //Uses a regular expression to remove:
+        //
+        // - All apostrophes that exist are the beginning
+        //   and at the end of the word in a string are removed.
+        //
+        // - NOT all characters in a word along with NOT
+        //   all apostrophes in a word. Meaning "you'll" is valid
+        //   but "test'" will convert to "test".
+        //
+        // Word is even converted to lowercase.
+        StringTokenizer itr = new StringTokenizer(value.toString()
+                .replaceAll("[^\\w\\'\\s]+|\\'(?!\\w)|(?<!\\w)\\'|\\d+", " "));
 
         while (itr.hasMoreTokens()) {
-            //Uses a regular expression to remove:
-            //
-            // - All apostrophes that exist are the beginning
-            //   and at the end of the word in a string are removed.
-            //
-            // - NOT all characters in a word along with NOT
-            //   all apostrophes in a word. Meaning "you'll" is valid
-            //   but "test'" will convert to "test".
-            //
-            // Word is even converted to lowercase.
-            String currentWord = itr.nextToken()
-                    .replaceAll("(^')|('$)|[^'a-zA-Z]", " ")
-                    .toLowerCase();
+
+            String currentWord = itr.nextToken();
 
             // If stop word is found, don't write to context.
             if (stopWords.contains(currentWord)) continue;
