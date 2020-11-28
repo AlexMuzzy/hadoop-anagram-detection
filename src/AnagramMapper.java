@@ -33,7 +33,7 @@ public class AnagramMapper extends Mapper<Object, Text, AnagramCompositeKey, Tex
 
         // Splits string into whitespace separated tokens for iteration.
         //
-        //Uses a regular expression to remove:
+        // Uses a regular expression to remove:
         //
         // - All apostrophes that exist are the beginning
         //   and at the end of the word in a string are removed.
