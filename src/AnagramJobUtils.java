@@ -1,15 +1,10 @@
-
-
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 
 import java.io.IOException;
-
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-
-import java.util.ArrayList;
 import java.util.Scanner;
 
 /**

@@ -36,13 +36,13 @@ public class AnagramCompositeValues {
                 .stream(wordsIterable.spliterator(), false) // Split Iterable.
                 .map(Text::toString) // Map each Text object to string.
                 .collect(Collectors.joining(", "));
-                // Join via delimiter ", ".
+        // Join via delimiter ", ".
     }
 
     /**
      * Produces a TreeMap (sorted map) of the given concatenated words.
      * Splits each word into an array, which then gets compared and grouped.
-     *
+     * <p>
      * Count value is produced with each word given the value of 1
      * and summed together.
      *
@@ -54,8 +54,8 @@ public class AnagramCompositeValues {
         return new TreeMap<>(Arrays
                 .stream(words.split(", ")) // Split each word via delimiter ", "
                 .collect(Collectors.groupingBy(Function.identity(), summingInt(s -> 1))));
-                // Collect each word together, with the rules that they are summarised with
-                // the respective value of 1 via equality check.
+        // Collect each word together, with the rules that they are summarised with
+        // the respective value of 1 via equality check.
     }
 
     public int getSize() {

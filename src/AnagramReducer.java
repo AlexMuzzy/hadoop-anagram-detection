@@ -15,13 +15,14 @@ public class AnagramReducer extends Reducer<AnagramCompositeKey, Text, Text, Tex
     public void setup(Context context) {
         anagramMap = new TreeMap<>();
     }
+
     /**
      * Reducer method.
      * Takes each key value pair and summarises every value to each distinct key within.
      * the given anagram composite key class.
      *
-     * @param key Each given key.
-     * @param values Every given value.
+     * @param key     Each given key.
+     * @param values  Every given value.
      * @param context Context of running job.
      */
     public void reduce(AnagramCompositeKey key, Iterable<Text> values, Context context) {
@@ -31,8 +32,8 @@ public class AnagramReducer extends Reducer<AnagramCompositeKey, Text, Text, Tex
         // If there is more than one unique word in the anagram set, continue.
         if (anagram.getSize() > 1) {
             anagramMap.put(new AnagramCompositeKey(
-                    key.getKeyName(),
-                    key.getFrequency()),
+                            key.getKeyName(),
+                            key.getFrequency()),
                     anagram.printWordCounts());
         }
     }

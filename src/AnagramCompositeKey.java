@@ -2,7 +2,6 @@ import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.io.WritableComparable;
-import org.apache.hadoop.shaded.org.apache.curator.shaded.com.google.common.collect.ComparisonChain;
 
 import java.io.DataInput;
 import java.io.DataOutput;

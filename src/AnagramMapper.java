@@ -46,7 +46,7 @@ public class AnagramMapper extends Mapper<Object, Text, AnagramCompositeKey, Tex
             //
             // Word is even converted to lowercase.
             String currentWord = itr.nextToken()
-                    .replaceAll("(^')|('$)|[^'a-zA-Z]", "")
+                    .replaceAll("(^')|('$)|[^'a-zA-Z]", " ")
                     .toLowerCase();
 
             // If stop word is found, don't write to context.
