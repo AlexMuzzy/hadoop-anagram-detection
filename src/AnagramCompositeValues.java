@@ -62,6 +62,10 @@ public class AnagramCompositeValues {
         return this.wordCounts.size();
     }
 
+    public String getFirstKey () {
+        return this.wordCounts.firstKey();
+    }
+
     /**
      * Formats the word counts within the map and prints each
      * key value pair iteratively.

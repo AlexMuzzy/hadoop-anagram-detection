@@ -32,7 +32,7 @@ public class AnagramReducer extends Reducer<AnagramCompositeKey, Text, Text, Tex
         // If there is more than one unique word in the anagram set, continue.
         if (anagram.getSize() > 1) {
             anagramMap.put(new AnagramCompositeKey(
-                            key.getKeyName(),
+                            new Text(anagram.getFirstKey()),
                             key.getFrequency()),
                     anagram.printWordCounts());
         }
