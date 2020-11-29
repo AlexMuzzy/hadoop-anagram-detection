@@ -44,7 +44,8 @@ public class AnagramMapper extends Mapper<Object, Text, AnagramCompositeKey, Tex
         //
         // Word is even converted to lowercase.
         StringTokenizer itr = new StringTokenizer(value.toString()
-                .replaceAll("[^\\w'\\s]+|'(?!\\w)|(?<!\\w)'|\\d+", " "));
+                .replaceAll("[^\\w'\\s]+|'(?!\\w)|(?<!\\w)'|\\d+", " ")
+                .toLowerCase());
 
         while (itr.hasMoreTokens()) {
 
