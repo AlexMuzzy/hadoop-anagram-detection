@@ -1,6 +1,8 @@
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
+import org.omg.CORBA.StringHolder;
 
 import java.io.IOException;
 import java.util.TreeMap;
@@ -12,9 +14,17 @@ public class AnagramReducer extends Reducer<AnagramCompositeKey, Text, Text, Tex
 
     private TreeMap<AnagramCompositeKey, String> anagramMap;
 
+    public static String keySortOptional;
+    public static String frequencySortOptional;
+
     @Override
     public void setup(Context context) {
+        Configuration conf = context.getConfiguration();
+        keySortOptional = conf.get("keyName.descending");
+        frequencySortOptional = conf.get("frequency.descending");
+
         anagramMap = new TreeMap<>();
+
     }
 
     /**

@@ -84,10 +84,6 @@ public class AnagramJobUtils {
         // 1 is default value given, -1 is altered value.
         Integer[] resultArgs = new Integer[]{1, 1};
 
-        if (cmdLineArgs.length <= 2) return resultArgs;
-        // Checks if any optional parameters have been given. If not,
-        // return the default values.
-
         for (String cmdLineArg : cmdLineArgs) {
 
             // Process each argument and if it matches a sorting parameter

@@ -19,16 +19,7 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
  */
 public class AnagramCountJob {
 
-    public static String[] cmdLineArgs;
-    public static Integer[] paramArgs;
-
     public static void main(String[] args) throws Exception {
-
-        cmdLineArgs = args;
-        //initial command line parameters.
-
-        paramArgs = AnagramJobUtils.getOptionals(cmdLineArgs);
-        //Command line parameters which have been processed
 
         //Checks if output directory exists.
         if (AnagramJobUtils.checkOutputDirectory("output")) {
@@ -47,8 +38,8 @@ public class AnagramCountJob {
         job.setOutputKeyClass(AnagramCompositeKey.class);
         job.setOutputValueClass(Text.class);
 
-        FileInputFormat.addInputPath(job, new Path(cmdLineArgs[0]));
-        FileOutputFormat.setOutputPath(job, new Path(cmdLineArgs[1]));
+        FileInputFormat.addInputPath(job, new Path(args[0]));
+        FileOutputFormat.setOutputPath(job, new Path(args[1]));
 
         System.exit(job.waitForCompletion(true) ? 0 : 1);
     }
