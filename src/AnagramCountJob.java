@@ -22,8 +22,6 @@ import org.apache.hadoop.util.ToolRunner;
  */
 public class AnagramCountJob extends Configured implements Tool {
 
-    public static Integer[] optionalParamsValues;
-
     public static void main(String[] args) throws Exception {
 
         //Checks if output directory exists.
@@ -40,11 +38,6 @@ public class AnagramCountJob extends Configured implements Tool {
         //ANAGRAM HADOOP DRIVER CODE
         Configuration conf = this.getConf();
         Job job = Job.getInstance(conf, "Anagram Count");
-
-        optionalParamsValues = AnagramJobUtils.getOptionals(new String[]{
-            conf.get("keyName.descending"),
-            conf.get("frequency.descending")
-        });
 
         job.setJarByClass(AnagramCountJob.class);
         job.setMapperClass(AnagramMapper.class);

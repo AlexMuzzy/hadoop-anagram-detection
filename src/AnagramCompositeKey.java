@@ -85,10 +85,15 @@ public class AnagramCompositeKey implements Writable, WritableComparable<Anagram
      */
     @Override
     public int compareTo(AnagramCompositeKey pair) {
-        int frequencySort = this.frequency.compareTo(pair.frequency);
-        int keyNameSort = this.keyName.compareTo(pair.keyName);
 
+        int frequencySort = AnagramReducer.optionalParamsValues[0]
+                * this.frequency.compareTo(pair.frequency);
+        int keyNameSort = AnagramReducer.optionalParamsValues[1]
+                * this.keyName.compareTo(pair.keyName);
+
+        //If word count comparison are different, return its positions.
         if (frequencySort != 0) return frequencySort;
+        //Return Position of anagram words given the same word count.
         return keyNameSort;
     }
 }
