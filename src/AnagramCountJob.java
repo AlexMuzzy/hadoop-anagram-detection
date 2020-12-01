@@ -44,7 +44,7 @@ public class AnagramCountJob extends Configured implements Tool {
                 conf.get("frequency.descending")
         });
 
-        stopWords = AnagramJobUtils.getStopWords();
+        stopWords = AnagramJobUtils.requestAndSaveStopWords();
 
         Job job = Job.getInstance(conf, "Anagram Count");
 

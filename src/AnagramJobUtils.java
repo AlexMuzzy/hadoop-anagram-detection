@@ -57,7 +57,7 @@ public class AnagramJobUtils {
      * @return List of strings of the given stop words.
      * @throws IOException Throws Exception when IO operation is performed.
      */
-    private static String[] requestAndSaveStopWords() throws IOException {
+    public static List<String> requestAndSaveStopWords() throws IOException {
 
         URL urlString = new URL("https://www.textfixer.com/tutorials/common-english-words-with-contractions.txt");
 
@@ -68,23 +68,9 @@ public class AnagramJobUtils {
 
             scanner.useDelimiter("\\A"); //RegEx pattern to begin at start of string.
 
-            return stopWords.append(scanner.hasNext() ? scanner.next() : "")
-                    .toString().split(","); //return string array of given stop words.
+            return Arrays.asList(stopWords.append(scanner.hasNext() ? scanner.next() : "")
+                    .toString().split(",")); //return string array of given stop words.
         }
-    }
-
-    /**
-     * Gets stop words for filtering input data.
-     *
-     * @return List of stop words.
-     */
-    public static List<String> getStopWords() {
-        try {
-            return Arrays.asList(AnagramJobUtils.requestAndSaveStopWords());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     /**
