@@ -22,6 +22,9 @@ import org.apache.hadoop.util.ToolRunner;
  */
 public class AnagramCountJob extends Configured implements Tool {
 
+    public static Integer[] optionalParamsValues;
+
+
     public static void main(String[] args) throws Exception {
 
         //Checks if output directory exists.

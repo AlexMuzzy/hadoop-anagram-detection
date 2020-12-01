@@ -1,3 +1,4 @@
+import com.sun.istack.NotNull;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
@@ -86,10 +87,14 @@ public class AnagramCompositeKey implements Writable, WritableComparable<Anagram
     @Override
     public int compareTo(AnagramCompositeKey pair) {
 
-        int frequencySort = AnagramReducer.optionalParamsValues[0]
-                * this.frequency.compareTo(pair.frequency);
-        int keyNameSort = AnagramReducer.optionalParamsValues[1]
+        Integer[] paramValues = AnagramCountJob.optionalParamsValues;
+
+        if (paramValues == null) paramValues = new Integer[]{1, 1};
+
+        int keyNameSort = paramValues[1]
                 * this.keyName.compareTo(pair.keyName);
+        int frequencySort = paramValues[0]
+                * this.frequency.compareTo(pair.frequency);
 
         //If word count comparison are different, return its positions.
         if (frequencySort != 0) return frequencySort;

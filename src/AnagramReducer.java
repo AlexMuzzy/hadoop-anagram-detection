@@ -2,9 +2,11 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
+import org.apache.log4j.Logger;
 import org.omg.CORBA.StringHolder;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.TreeMap;
 
 /**
@@ -14,14 +16,11 @@ public class AnagramReducer extends Reducer<AnagramCompositeKey, Text, Text, Tex
 
     private TreeMap<AnagramCompositeKey, String> anagramMap;
 
-    public static Integer[] optionalParamsValues;
-
-
     @Override
     public void setup(Context context) {
         Configuration conf = context.getConfiguration();
 
-        optionalParamsValues = AnagramJobUtils.getOptionals(new String[]{
+        AnagramCountJob.optionalParamsValues = AnagramJobUtils.getOptionals(new String[]{
                 conf.get("keyName.descending"),
                 conf.get("frequency.descending")
         });
