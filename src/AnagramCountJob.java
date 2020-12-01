@@ -52,6 +52,7 @@ public class AnagramCountJob extends Configured implements Tool {
         job.setMapperClass(AnagramMapper.class);
         job.setCombinerClass(AnagramCombiner.class);
         job.setReducerClass(AnagramReducer.class);
+        job.setNumReduceTasks(1); //Produces only 1 output file.
 
         job.setOutputKeyClass(AnagramCompositeKey.class);
         job.setOutputValueClass(Text.class);
