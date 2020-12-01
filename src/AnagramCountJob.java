@@ -8,21 +8,19 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
+import java.util.List;
+
 /**
  * DESCRIPTION: Using the Apache Hadoop Framework, it finds every common anagram
  * amongst a given dataset.
  * <p>
  * A more thorough description of the project can be found in the README markdown
  * document.
- * <p>
- * All classes and methods within this project make use of JavaDocs comments.
- * JavaDocs Style guide used can be found here: https://blog.joda.org/2012/11/javadoc-coding-standards.html
- * <p>
- * camelCase naming conventions are used in this project.
  */
 public class AnagramCountJob extends Configured implements Tool {
 
     public static Integer[] optionalParamsValues;
+    public static List<String> stopWords;
 
 
     public static void main(String[] args) throws Exception {
@@ -45,6 +43,8 @@ public class AnagramCountJob extends Configured implements Tool {
                 conf.get("keyName.descending"),
                 conf.get("frequency.descending")
         });
+
+        stopWords = AnagramJobUtils.getStopWords();
 
         Job job = Job.getInstance(conf, "Anagram Count");
 

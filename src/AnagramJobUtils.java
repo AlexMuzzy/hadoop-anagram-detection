@@ -5,6 +5,8 @@ import org.apache.hadoop.fs.Path;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -55,7 +57,7 @@ public class AnagramJobUtils {
      * @return List of strings of the given stop words.
      * @throws IOException Throws Exception when IO operation is performed.
      */
-    public static String[] requestAndSaveStopWords() throws IOException {
+    private static String[] requestAndSaveStopWords() throws IOException {
 
         URL urlString = new URL("https://www.textfixer.com/tutorials/common-english-words-with-contractions.txt");
 
@@ -69,6 +71,20 @@ public class AnagramJobUtils {
             return stopWords.append(scanner.hasNext() ? scanner.next() : "")
                     .toString().split(","); //return string array of given stop words.
         }
+    }
+
+    /**
+     * Gets stop words for filtering input data.
+     *
+     * @return List of stop words.
+     */
+    public static List<String> getStopWords() {
+        try {
+            return Arrays.asList(AnagramJobUtils.requestAndSaveStopWords());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**

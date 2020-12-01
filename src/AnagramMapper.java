@@ -13,8 +13,6 @@ import java.util.StringTokenizer;
  */
 public class AnagramMapper extends Mapper<Object, Text, AnagramCompositeKey, Text> {
 
-    List<String> stopWords = getStopWords();
-
     /**
      * Mapper method.
      * <p>
@@ -52,7 +50,7 @@ public class AnagramMapper extends Mapper<Object, Text, AnagramCompositeKey, Tex
             String currentWord = itr.nextToken();
 
             // If stop word is found, don't write to context.
-            if (stopWords.contains(currentWord)) continue;
+            if (AnagramCountJob.stopWords.contains(currentWord)) continue;
 
             AnagramCompositeKey reducerKey = new AnagramCompositeKey(
                     SortGivenWord(currentWord.toCharArray()),
@@ -73,20 +71,6 @@ public class AnagramMapper extends Mapper<Object, Text, AnagramCompositeKey, Tex
     private Text SortGivenWord(char[] word) {
         Arrays.sort(word);
         return new Text(new String(word));
-    }
-
-    /**
-     * Gets stop words for filtering input data.
-     *
-     * @return List of stop words.
-     */
-    private List<String> getStopWords() {
-        try {
-            return stopWords = Arrays.asList(AnagramJobUtils.requestAndSaveStopWords());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 }
 
