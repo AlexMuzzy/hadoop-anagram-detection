@@ -14,17 +14,9 @@ public class AnagramReducer extends Reducer<AnagramCompositeKey, Text, Text, Tex
 
     private TreeMap<AnagramCompositeKey, String> anagramMap;
 
-    public static String keySortOptional;
-    public static String frequencySortOptional;
-
     @Override
     public void setup(Context context) {
-        Configuration conf = context.getConfiguration();
-        keySortOptional = conf.get("keyName.descending");
-        frequencySortOptional = conf.get("frequency.descending");
-
         anagramMap = new TreeMap<>();
-
     }
 
     /**

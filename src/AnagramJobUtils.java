@@ -84,18 +84,11 @@ public class AnagramJobUtils {
         // 1 is default value given, -1 is altered value.
         Integer[] resultArgs = new Integer[]{1, 1};
 
-        for (String cmdLineArg : cmdLineArgs) {
-
-            // Process each argument and if it matches a sorting parameter
-            // that isn't currently a default value.
-            switch (cmdLineArg) {
-                case "Sort=descending":
-                    resultArgs[0] = -1;
-                    break;
-
-                case "WordSort=descending":
-                    resultArgs[1] = -1;
-                    break;
+        // Process each argument and if it matches a sorting parameter
+        // that isn't currently a default value.
+        for (int i = 0; i < resultArgs.length; i++) {
+            if (cmdLineArgs[i] != null && cmdLineArgs[i].equals("true")) {
+                resultArgs[i] = -1;
             }
         }
         //Return altered parameter args.

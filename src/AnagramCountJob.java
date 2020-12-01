@@ -1,9 +1,12 @@
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.apache.hadoop.util.Tool;
+import org.apache.hadoop.util.ToolRunner;
 
 /**
  * DESCRIPTION: Using the Apache Hadoop Framework, it finds every common anagram
@@ -17,7 +20,9 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
  * <p>
  * camelCase naming conventions are used in this project.
  */
-public class AnagramCountJob {
+public class AnagramCountJob extends Configured implements Tool {
+
+    public static Integer[] optionalParamsValues;
 
     public static void main(String[] args) throws Exception {
 
@@ -25,10 +30,21 @@ public class AnagramCountJob {
         if (AnagramJobUtils.checkOutputDirectory("output")) {
             System.out.println("Output directory deleted. continuing job.");
         }
+        //Run MapReduce job.
+        int res = ToolRunner.run(new Configuration(), new AnagramCountJob(), args);
+        System.exit(res);
+    }
 
+    @Override
+    public int run(String[] args) throws Exception {
         //ANAGRAM HADOOP DRIVER CODE
-        Configuration conf = new Configuration();
+        Configuration conf = this.getConf();
         Job job = Job.getInstance(conf, "Anagram Count");
+
+        optionalParamsValues = AnagramJobUtils.getOptionals(new String[]{
+            conf.get("keyName.descending"),
+            conf.get("frequency.descending")
+        });
 
         job.setJarByClass(AnagramCountJob.class);
         job.setMapperClass(AnagramMapper.class);
@@ -41,6 +57,6 @@ public class AnagramCountJob {
         FileInputFormat.addInputPath(job, new Path(args[0]));
         FileOutputFormat.setOutputPath(job, new Path(args[1]));
 
-        System.exit(job.waitForCompletion(true) ? 0 : 1);
+        return job.waitForCompletion(true) ? 0 : 1;
     }
 }
