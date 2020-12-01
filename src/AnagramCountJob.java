@@ -20,8 +20,6 @@ import java.util.List;
 public class AnagramCountJob extends Configured implements Tool {
 
     public static Integer[] optionalParamsValues;
-    public static List<String> stopWords;
-
 
     public static void main(String[] args) throws Exception {
 
@@ -43,8 +41,6 @@ public class AnagramCountJob extends Configured implements Tool {
                 conf.get("keyName.descending"),
                 conf.get("frequency.descending")
         });
-
-        stopWords = AnagramJobUtils.requestAndSaveStopWords();
 
         Job job = Job.getInstance(conf, "Anagram Count");
 
