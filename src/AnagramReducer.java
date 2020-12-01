@@ -18,13 +18,6 @@ public class AnagramReducer extends Reducer<AnagramCompositeKey, Text, Text, Tex
 
     @Override
     public void setup(Context context) {
-        Configuration conf = context.getConfiguration();
-
-        AnagramCountJob.optionalParamsValues = AnagramJobUtils.getOptionals(new String[]{
-                conf.get("keyName.descending"),
-                conf.get("frequency.descending")
-        });
-
         anagramMap = new TreeMap<>();
     }
 

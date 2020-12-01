@@ -40,6 +40,12 @@ public class AnagramCountJob extends Configured implements Tool {
     public int run(String[] args) throws Exception {
         //ANAGRAM HADOOP DRIVER CODE
         Configuration conf = this.getConf();
+
+        optionalParamsValues = AnagramJobUtils.getOptionals(new String[]{
+                conf.get("keyName.descending"),
+                conf.get("frequency.descending")
+        });
+
         Job job = Job.getInstance(conf, "Anagram Count");
 
         job.setJarByClass(AnagramCountJob.class);
