@@ -91,9 +91,9 @@ public class AnagramCompositeKey implements Writable, WritableComparable<Anagram
 
         if (paramValues == null) paramValues = new Integer[]{1, 1};
 
-        int keyNameSort = paramValues[1]
+        int keyNameSort = paramValues[0]
                 * this.keyName.compareTo(pair.keyName);
-        int frequencySort = paramValues[0]
+        int frequencySort = paramValues[1]
                 * this.frequency.compareTo(pair.frequency);
 
         //If word count comparison are different, return its positions.
