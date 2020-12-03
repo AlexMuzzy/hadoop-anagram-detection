@@ -11,7 +11,6 @@ import java.util.TreeMap;
  */
 public class AnagramReducer extends Reducer<AnagramCompositeKey, Text, Text, Text> {
 
-//    private TreeMap<AnagramCompositeKey, AnagramCompositeValues> anagramMap;
     private HashMap<String, AnagramCompositeValues> anagramMap;
 
     @Override
