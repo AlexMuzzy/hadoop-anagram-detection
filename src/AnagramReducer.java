@@ -31,11 +31,15 @@ public class AnagramReducer extends Reducer<AnagramCompositeKey, Text, Text, Tex
     public void reduce(AnagramCompositeKey key, Iterable<Text> values, Context context) {
 
         AnagramCompositeValues anagram = new AnagramCompositeValues(values);
+        //Get set of anagram along with their word counts.
 
         if(anagramMap.containsKey(key.getKeyName().toString())) {
             anagramMap.get(key.getKeyName().toString()).addWordCounts(anagram);
+            // If anagram set with same key exists, then merge new word counts with
+            // given word counts.
         } else {
             anagramMap.put(key.getKeyName().toString(), anagram);
+            //Otherwise create new set.
         }
     }
 
@@ -61,8 +65,10 @@ public class AnagramReducer extends Reducer<AnagramCompositeKey, Text, Text, Tex
 
         finalAnagramMap.forEach((key, value) -> {
             try {
-                if (value.getSize() > 1) //Check to see if there is more than one distinct word.
+                if (value.getSize() > 1) { //Check to see if there is more than one distinct word.
                     context.write(key.getKeyPair(), new Text(" { " + value.printWordCounts() + " } "));
+                    //Print each key value pair.
+                }
 
             } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
