@@ -87,7 +87,7 @@ public class AnagramReducer extends Reducer<AnagramCompositeKey, Text, Text, Tex
         anagramMap.forEach((key, value) ->
                 finalAnagramMap.put(new AnagramCompositeKey(
                 new Text(value.getFirstKey()),
-                key.getFrequency()),
+                new IntWritable(value.getSize())),
                 value));
 
         finalAnagramMap.forEach((key, value) -> {
