@@ -66,6 +66,10 @@ public class AnagramCompositeValues {
         return this.wordCounts;
     }
 
+    public void setWordCounts(TreeMap<String, Integer> wordCounts) {
+        this.wordCounts = wordCounts;
+    }
+
     public String getFirstKey () {
         return this.wordCounts.firstKey();
     }
@@ -90,7 +94,7 @@ public class AnagramCompositeValues {
      * word occurrences.
      * @param treeMap TreeMap to be added.
      */
-    public void addTreeMap(AnagramCompositeValues treeMap) {
+    public void addWordCounts(AnagramCompositeValues treeMap) {
         treeMap.getWordCounts().forEach((k, v) -> this.wordCounts.merge(k, v, Integer::sum));
     }
 }

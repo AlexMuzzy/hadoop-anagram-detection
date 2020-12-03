@@ -37,7 +37,11 @@ public class AnagramReducer extends Reducer<AnagramCompositeKey, Text, Text, Tex
         for (AnagramCompositeKey anagramKey: anagramMap.keySet()) {
             if(anagramKey.getKeyName().equals(key.getKeyName())) {
                 // Checks if there is a mutual key contained in the anagramMap.
-                anagramMap.get(anagramKey).addTreeMap(anagram);
+                if (anagramMap.get(anagramKey) != null) {
+                    anagramMap.get(anagramKey).addWordCounts(anagram);
+                } else {
+                    anagramMap.get(anagramKey).setWordCounts(anagram.getWordCounts());
+                }
                 // Merge the two composite values.
                 anagramKey.setFrequency(new IntWritable(
                         anagramMap.get(anagramKey).getSize()));
