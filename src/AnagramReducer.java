@@ -1,8 +1,6 @@
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
-import org.apache.hadoop.yarn.webapp.hamlet2.Hamlet;
-import sun.reflect.generics.tree.Tree;
 
 import java.io.IOException;
 import java.util.TreeMap;
