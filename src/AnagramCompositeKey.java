@@ -36,6 +36,10 @@ public class AnagramCompositeKey implements Writable, WritableComparable<Anagram
         return this.keyName;
     }
 
+    public IntWritable getFrequency() {
+        return frequency;
+    }
+
     public void setFrequency(IntWritable frequency) {
         this.frequency = frequency;
     }
