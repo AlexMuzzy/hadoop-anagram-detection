@@ -3,6 +3,7 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.TreeMap;
 
 /**
@@ -10,12 +11,14 @@ import java.util.TreeMap;
  */
 public class AnagramReducer extends Reducer<AnagramCompositeKey, Text, Text, Text> {
 
-    private TreeMap<AnagramCompositeKey, AnagramCompositeValues> anagramMap;
+//    private TreeMap<AnagramCompositeKey, AnagramCompositeValues> anagramMap;
+    private HashMap<String, AnagramCompositeValues> anagramMap;
 
     @Override
     public void setup(Context context) {
-        anagramMap = new TreeMap<>();
+        anagramMap = new HashMap<>();
     }
+
 
     /**
      * Reducer method.
@@ -30,43 +33,10 @@ public class AnagramReducer extends Reducer<AnagramCompositeKey, Text, Text, Tex
 
         AnagramCompositeValues anagram = new AnagramCompositeValues(values);
 
-        AnagramCompositeKey oldKey = new AnagramCompositeKey();
-
-        boolean keyFoundFlag = false;
-
-        // Iterate through each key, to see if there is a matching key name in the
-        // composite key to the current key in the reducer.
-        for (AnagramCompositeKey anagramKey: anagramMap.keySet()) {
-            if(anagramKey.getKeyName().equals(key.getKeyName())) {
-                // Checks if there is a mutual key contained in the anagramMap.
-                if (anagramMap.get(anagramKey) != null) {
-                    anagramMap.get(anagramKey).addWordCounts(anagram);
-                } else {
-                    anagramMap.put(key, anagram);
-                }
-                // Merge the two composite values.
-                keyFoundFlag = true;
-            }
-        }
-
-        // If the current key was merged into an already existing key,
-        // then continue to the next iteration.
-        if(!keyFoundFlag) {
-            anagramMap.put(new AnagramCompositeKey(
-                            new Text(key.getKeyName()),
-                            new IntWritable(anagram.getSize())),
-                    anagram);
+        if(anagramMap.containsKey(key.getKeyName().toString())) {
+            anagramMap.get(key.getKeyName().toString()).addWordCounts(anagram);
         } else {
-            AnagramCompositeValues anagramCompositeValues = anagramMap.get(oldKey);
-            if (anagramCompositeValues != null) {
-                anagramMap.remove(oldKey);
-                //Change key to match new word count.
-                anagramMap.put(new AnagramCompositeKey(
-                                new Text(oldKey.getKeyName()),
-                                new IntWritable(anagramCompositeValues.getSize())),
-                        anagramCompositeValues);
-                //set the new distinct word count size.
-            }
+            anagramMap.put(key.getKeyName().toString(), anagram);
         }
     }
 
