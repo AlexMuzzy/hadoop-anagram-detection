@@ -1,12 +1,8 @@
-import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
-import org.apache.log4j.Logger;
-import org.omg.CORBA.StringHolder;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.TreeMap;
 
 /**
@@ -14,7 +10,7 @@ import java.util.TreeMap;
  */
 public class AnagramReducer extends Reducer<AnagramCompositeKey, Text, Text, Text> {
 
-    private TreeMap<AnagramCompositeKey, String> anagramMap;
+    private TreeMap<AnagramCompositeKey, AnagramCompositeValues> anagramMap;
 
     @Override
     public void setup(Context context) {
@@ -34,14 +30,29 @@ public class AnagramReducer extends Reducer<AnagramCompositeKey, Text, Text, Tex
 
         AnagramCompositeValues anagram = new AnagramCompositeValues(values);
 
-        int anagramSize = anagram.getSize();
+        boolean keyFoundFlag = false;
 
-        // If there is more than one unique word in the anagram set, continue.
-        if (anagramSize > 1) {
+        // Iterate through each key, to see if there is a matching key name in the
+        // composite key to the current key in the reducer.
+        for (AnagramCompositeKey anagramKey: anagramMap.keySet()) {
+            if(anagramKey.getKeyName().equals(key.getKeyName())) {
+                // Checks if there is a mutual key contained in the anagramMap.
+                anagramMap.get(anagramKey).addTreeMap(anagram);
+                // Merge the two composite values.
+                anagramKey.setFrequency(new IntWritable(
+                        anagramMap.get(anagramKey).getSize()));
+                //set the new distinct word count size.
+                keyFoundFlag = true;
+            }
+        }
+
+        // If the current key was merged into an already existing key,
+        // then continue to the next iteration.
+        if(!keyFoundFlag) {
             anagramMap.put(new AnagramCompositeKey(
-                            new Text(anagram.getFirstKey()),
-                            new IntWritable(anagramSize)),
-                    anagram.printWordCounts());
+                            new Text(key.getKeyName()),
+                            new IntWritable(anagram.getSize())),
+                    anagram);
         }
     }
 
@@ -53,16 +64,20 @@ public class AnagramReducer extends Reducer<AnagramCompositeKey, Text, Text, Tex
      * @param context Given context.
      */
     public void cleanup(Context context) {
+        // Merge each key value pair where key name matches since its currently possible to
+        // have pairs where the name matches, but its distinct count is different.
+
+        anagramMap.forEach((key, value) -> key.setKeyName(new Text(value.getFirstKey())));
+
         anagramMap.forEach((key, value) -> {
             try {
-                context.write(key.getKeyPair(), new Text(" { " + value + " } "));
+                if (value.getSize() > 1) //Check to see if there is more than one distinct word.
+                    context.write(key.getKeyPair(), new Text(" { " + value.printWordCounts() + " } "));
 
             } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
             }
         });
     }
-
-
 }
 

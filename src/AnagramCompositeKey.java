@@ -1,4 +1,3 @@
-import com.sun.istack.NotNull;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
@@ -31,6 +30,10 @@ public class AnagramCompositeKey implements Writable, WritableComparable<Anagram
     public AnagramCompositeKey(Text keyName, IntWritable frequency) {
         this.frequency = frequency;
         this.keyName = keyName;
+    }
+
+    public Text getKeyName() {
+        return this.keyName;
     }
 
     public void setFrequency(IntWritable frequency) {
