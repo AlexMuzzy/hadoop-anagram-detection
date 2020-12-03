@@ -40,11 +40,16 @@ public class AnagramReducer extends Reducer<AnagramCompositeKey, Text, Text, Tex
                 if (anagramMap.get(anagramKey) != null) {
                     anagramMap.get(anagramKey).addWordCounts(anagram);
                 } else {
-                    anagramMap.get(anagramKey).setWordCounts(anagram.getWordCounts());
+                    anagramMap.put(key, anagram);
                 }
                 // Merge the two composite values.
-                anagramKey.setFrequency(new IntWritable(
-                        anagramMap.get(anagramKey).getSize()));
+                AnagramCompositeValues anagramCompositeValues = anagramMap.get(anagramKey);
+                anagramMap.remove(anagramKey);
+                //Change key to match new word count.
+                anagramMap.put(new AnagramCompositeKey(key.getKeyName(),
+                        new IntWritable(anagramCompositeValues.getSize())),
+                        anagramCompositeValues);
+
                 //set the new distinct word count size.
                 keyFoundFlag = true;
             }
